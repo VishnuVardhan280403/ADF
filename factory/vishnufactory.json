@@ -1,0 +1,9 @@
+{
+	"name": "vishnufactory",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "016fa4c0-ad4c-4edd-aff2-dff1361a9ace",
+		"tenantId": "b637c4f6-57b7-44dc-bce4-fec0cd202460"
+	}
+}

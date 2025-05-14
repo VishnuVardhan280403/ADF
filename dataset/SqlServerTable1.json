@@ -1,0 +1,55 @@
+{
+	"name": "SqlServerTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ADFName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PipelineName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TriggerName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TriggerTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "PipelineRunID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TriggerID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LoggedAt",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ADF_Metadata_Log"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
