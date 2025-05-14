@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "vishnufactory"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzurePostgreSql1_password": {
+			"value": ""
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"SqlServer2_password": {
+			"value": ""
+		},
+		"AzurePostgreSql1_properties_typeProperties_server": {
+			"value": "sessionspgadmins.postgres.database.azure.com"
+		},
+		"AzurePostgreSql1_properties_typeProperties_database": {
+			"value": "postgres"
+		},
+		"AzurePostgreSql1_properties_typeProperties_username": {
+			"value": "vishnu"
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "task123"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "task"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "vishnu"
+		},
+		"SqlServer2_properties_typeProperties_server": {
+			"value": "task123.database.windows.net"
+		},
+		"SqlServer2_properties_typeProperties_database": {
+			"value": "task"
+		},
+		"SqlServer2_properties_typeProperties_userName": {
+			"value": "vishnu"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
