@@ -647,6 +647,34 @@
 								"TriggerID": {
 									"value": null,
 									"type": "String"
+								},
+								"lookuperror": {
+									"value": {
+										"value": "@variables('lookuperror')",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"lookupstatus": {
+									"value": {
+										"value": "@variables('lookupstatus')",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"ifstatus": {
+									"value": {
+										"value": "@variables('ifstatus')",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"endtime": {
+									"value": {
+										"value": "@utcNow()",
+										"type": "Expression"
+									},
+									"type": "Datetime"
 								}
 							}
 						},
@@ -781,6 +809,28 @@
 					{
 						"name": "Notebook2",
 						"type": "DatabricksNotebook",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/21691a32c1@mits.ac.in/Final Notebook (1) (1)"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks1",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Notebook3",
+						"type": "DatabricksNotebook",
 						"dependsOn": [
 							{
 								"activity": "Notebook1",
@@ -798,7 +848,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebookPath": "/Users/21691a32c1@mits.ac.in/Final Notebook (1) (1)"
+							"notebookPath": "/Users/21691a32c1@mits.ac.in/Final Notebook (1) (2)"
 						},
 						"linkedServiceName": {
 							"referenceName": "AzureDatabricks1",
