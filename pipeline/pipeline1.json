@@ -301,15 +301,24 @@
 							"type": "String"
 						},
 						"lookuperror": {
-							"value": "@variables('lookuperror')",
+							"value": {
+								"value": "@variables('lookuperror')",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"lookupstatus": {
-							"value": "@variables('lookupstatus')",
+							"value": {
+								"value": "@variables('lookupstatus')",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"ifstatus": {
-							"value": "@variables('ifstatus')",
+							"value": {
+								"value": "@variables('ifstatus')",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"endtime": {
@@ -327,7 +336,7 @@
 				}
 			},
 			{
-				"name": "Notebook1",
+				"name": "cleaning_and_transformation",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
@@ -472,11 +481,11 @@
 				}
 			},
 			{
-				"name": "Notebook3",
+				"name": "optimization",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
-						"activity": "Notebook1",
+						"activity": "cleaning_and_transformation",
 						"dependencyConditions": [
 							"Succeeded"
 						]
