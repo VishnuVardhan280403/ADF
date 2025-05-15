@@ -269,24 +269,55 @@
 							"type": "String"
 						},
 						"PipelineName": {
-							"value": "@pipeline().Pipeline",
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"TriggerName": {
-							"value": "@trigger().name",
+							"value": {
+								"value": "@trigger().name",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"TriggerTime": {
-							"value": "@trigger().startTime",
+							"value": {
+								"value": "@trigger().startTime",
+								"type": "Expression"
+							},
 							"type": "Datetime"
 						},
 						"PipelineRunID": {
-							"value": "@pipeline().RunId",
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"TriggerID": {
 							"value": null,
 							"type": "String"
+						},
+						"lookuperror": {
+							"value": "@variables('lookuperror')",
+							"type": "String"
+						},
+						"lookupstatus": {
+							"value": "@variables('lookupstatus')",
+							"type": "String"
+						},
+						"ifstatus": {
+							"value": "@variables('ifstatus')",
+							"type": "String"
+						},
+						"endtime": {
+							"value": {
+								"value": "@utcNow()",
+								"type": "Expression"
+							},
+							"type": "Datetime"
 						}
 					}
 				},
@@ -421,6 +452,28 @@
 			{
 				"name": "Notebook2",
 				"type": "DatabricksNotebook",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/21691a32c1@mits.ac.in/Final Notebook (1) (1)"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Notebook3",
+				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
 						"activity": "Notebook1",
@@ -438,7 +491,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/21691a32c1@mits.ac.in/Final Notebook (1) (1)"
+					"notebookPath": "/Users/21691a32c1@mits.ac.in/Final Notebook (1) (2)"
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureDatabricks1",
