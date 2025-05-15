@@ -5,11 +5,23 @@
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"schemaname": {
+				"type": "string",
+				"defaultValue": "@{concat(dataset().schemaname, '/',dataset().tablename)}"
+			},
+			"tablename": {
+				"type": "string",
+				"defaultValue": "@{concat(dataset().tablename,'.parquet')}"
+			}
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "inc.txt",
+				"folderPath": "output",
 				"container": "task"
 			},
 			"compressionCodec": "snappy"
