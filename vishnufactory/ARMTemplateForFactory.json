@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"AzureDatabricks1_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
 		"AzurePostgreSql1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzurePostgreSql1'"
@@ -22,6 +26,10 @@
 		"SqlServer2_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer2'"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0514-092440-b917jyfo"
 		},
 		"AzurePostgreSql1_properties_typeProperties_server": {
 			"type": "string",
@@ -166,7 +174,16 @@
 										{
 											"referenceName": "Parquet1",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"schemaname": {
+													"value": "@pipeline().parameters.schemaname",
+													"type": "Expression"
+												},
+												"tablename": {
+													"value": "@pipeline().parameters.tablename",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								},
@@ -252,7 +269,16 @@
 										{
 											"referenceName": "Parquet1",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"schemaname": {
+													"value": "@pipeline().parameters.schemaname",
+													"type": "Expression"
+												},
+												"tablename": {
+													"value": "@pipeline().parameters.tablename",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								},
@@ -297,6 +323,74 @@
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
+								"activity": "endtime",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[sp_InsertADFMetadataLog]",
+							"storedProcedureParameters": {
+								"ADFName": {
+									"value": {
+										"value": "vishnufactory",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"PipelineName": {
+									"value": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"TriggerName": {
+									"value": {
+										"value": "@trigger().name",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"TriggerTime": {
+									"value": {
+										"value": "@trigger().startTime",
+										"type": "Expression"
+									},
+									"type": "Datetime"
+								},
+								"PipelineRunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"TriggerID": {
+									"value": null,
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer2",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Notebook1",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
 								"activity": "If Condition1",
 								"dependencyConditions": [
 									"Succeeded"
@@ -312,10 +406,133 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "[[dbo].[sp_InsertADFMetadataLog]"
+							"notebookPath": "/Users/21691a32c1@mits.ac.in/prepared notebook"
 						},
 						"linkedServiceName": {
-							"referenceName": "SqlServer2",
+							"referenceName": "AzureDatabricks1",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "lookupstatus",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "lookupstatus",
+							"value": {
+								"value": "@if(equals(activity('Lookup1').Status, 'Succeeded'), 'succeeded', 'failed')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "lookuperror",
+							"value": {
+								"value": "@string(activity('Lookup1').Error.message)\n \n \n \n ",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "ifstatus",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "If Condition1",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "ifstatus",
+							"value": {
+								"value": "@if(equals(activity('If Condition1').Status, 'Succeeded'), 'succeeded', 'failed')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "endtime",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "ifstatus",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "endtime",
+							"value": {
+								"value": "@utcNow()",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Notebook2",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Notebook1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/21691a32c1@mits.ac.in/Final Notebook (1) (1)"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks1",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -323,12 +540,35 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"parameters": {
+					"schemaname": {
+						"type": "string"
+					},
+					"tablename": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"lookupstatus": {
+						"type": "String"
+					},
+					"lookuperror": {
+						"type": "String"
+					},
+					"ifstatus": {
+						"type": "String"
+					},
+					"endtime": {
+						"type": "String"
+					}
+				},
 				"annotations": [],
 				"lastPublishTime": "2025-05-14T10:06:40Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable1')]",
 				"[concat(variables('factoryId'), '/linkedServices/SqlServer2')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks1')]",
 				"[concat(variables('factoryId'), '/datasets/AzurePostgreSqlTable1')]",
 				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
 			]
@@ -418,11 +658,23 @@
 					"referenceName": "AzureBlobStorage1",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"schemaname": {
+						"type": "string",
+						"defaultValue": "@{concat(dataset().schemaname, '/',dataset().tablename)}"
+					},
+					"tablename": {
+						"type": "string",
+						"defaultValue": "@{concat(dataset().tablename,'.parquet')}"
+					}
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "inc.txt",
+						"folderPath": "output",
 						"container": "task"
 					},
 					"compressionCodec": "snappy"
@@ -501,6 +753,24 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-956555171098039.19.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks1_accessToken')]"
+					},
+					"existingClusterId": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
 				}
 			},
 			"dependsOn": []
