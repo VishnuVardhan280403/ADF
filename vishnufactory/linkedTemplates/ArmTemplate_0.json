@@ -684,7 +684,7 @@
 						}
 					},
 					{
-						"name": "Notebook1",
+						"name": "cleaning_and_transformation",
 						"type": "DatabricksNotebook",
 						"dependsOn": [
 							{
@@ -829,11 +829,11 @@
 						}
 					},
 					{
-						"name": "Notebook3",
+						"name": "optimization",
 						"type": "DatabricksNotebook",
 						"dependsOn": [
 							{
-								"activity": "Notebook1",
+								"activity": "cleaning_and_transformation",
 								"dependencyConditions": [
 									"Succeeded"
 								]
