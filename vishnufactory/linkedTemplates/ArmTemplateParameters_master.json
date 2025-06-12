@@ -32,6 +32,9 @@
 		"AzurePostgreSql1_properties_typeProperties_username": {
 			"value": "vishnu"
 		},
+		"HttpServer1_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/plotly/datasets/master/2016-weather-data-seattle.csv"
+		},
 		"SqlServer1_properties_typeProperties_server": {
 			"value": "task123"
 		},

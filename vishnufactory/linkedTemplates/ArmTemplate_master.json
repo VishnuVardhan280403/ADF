@@ -43,6 +43,10 @@
 			"type": "string",
 			"defaultValue": "vishnu"
 		},
+		"HttpServer1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/plotly/datasets/master/2016-weather-data-seattle.csv"
+		},
 		"SqlServer1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "task123"
@@ -120,6 +124,9 @@
 					},
 					"AzurePostgreSql1_properties_typeProperties_username": {
 						"value": "[parameters('AzurePostgreSql1_properties_typeProperties_username')]"
+					},
+					"HttpServer1_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer1_properties_typeProperties_url')]"
 					},
 					"SqlServer1_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer1_properties_typeProperties_server')]"
