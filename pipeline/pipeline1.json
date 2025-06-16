@@ -338,6 +338,8 @@
 			{
 				"name": "cleaning_and_transformation",
 				"type": "DatabricksNotebook",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "If Condition1",
@@ -483,6 +485,8 @@
 			{
 				"name": "optimization",
 				"type": "DatabricksNotebook",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "cleaning_and_transformation",
