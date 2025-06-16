@@ -421,6 +421,8 @@
 					{
 						"name": "cleaning_and_transformation",
 						"type": "DatabricksNotebook",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "If Condition1",
@@ -566,6 +568,8 @@
 					{
 						"name": "optimization",
 						"type": "DatabricksNotebook",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "cleaning_and_transformation",
@@ -732,6 +736,68 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
 				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline3')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pipeline1",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Execute Pipeline1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {},
+							"url": "https://prod-21.centralindia.logic.azure.com:443/workflows/f2cb8ccf2bbf4c0783c53e5be691b3d5/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=_PHHS6h3lzQYUIoj5BwsEUgRLhMrmObBwI_0MUmzDYM",
+							"body": {
+								"value": "{\n  \"status\": \"Failed\",\n  \"pipelineName\": \"@{pipeline().Pipeline}\",\n  \"runId\": \"@{pipeline().RunId}\",\n  \"activityName\": \"Execute Pipeline1\",\n  \"errorMessage\": \"@{string(activity('Execute Pipeline1').error)}\",\n  \"timestamp\": \"@{utcnow()}\"\n}\n",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pipeline1')]"
 			]
 		},
 		{
