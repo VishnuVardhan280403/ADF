@@ -1,0 +1,161 @@
+{
+	"name": "DelimitedText2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"chunkFileName": {
+				"type": "string",
+				"defaultValue": "@item().name"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().chunkFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "task/streaming_input/",
+					"type": "Expression"
+				},
+				"container": "task"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Time",
+				"type": "String"
+			},
+			{
+				"name": "V1",
+				"type": "String"
+			},
+			{
+				"name": "V2",
+				"type": "String"
+			},
+			{
+				"name": "V3",
+				"type": "String"
+			},
+			{
+				"name": "V4",
+				"type": "String"
+			},
+			{
+				"name": "V5",
+				"type": "String"
+			},
+			{
+				"name": "V6",
+				"type": "String"
+			},
+			{
+				"name": "V7",
+				"type": "String"
+			},
+			{
+				"name": "V8",
+				"type": "String"
+			},
+			{
+				"name": "V9",
+				"type": "String"
+			},
+			{
+				"name": "V10",
+				"type": "String"
+			},
+			{
+				"name": "V11",
+				"type": "String"
+			},
+			{
+				"name": "V12",
+				"type": "String"
+			},
+			{
+				"name": "V13",
+				"type": "String"
+			},
+			{
+				"name": "V14",
+				"type": "String"
+			},
+			{
+				"name": "V15",
+				"type": "String"
+			},
+			{
+				"name": "V16",
+				"type": "String"
+			},
+			{
+				"name": "V17",
+				"type": "String"
+			},
+			{
+				"name": "V18",
+				"type": "String"
+			},
+			{
+				"name": "V19",
+				"type": "String"
+			},
+			{
+				"name": "V20",
+				"type": "String"
+			},
+			{
+				"name": "V21",
+				"type": "String"
+			},
+			{
+				"name": "V22",
+				"type": "String"
+			},
+			{
+				"name": "V23",
+				"type": "String"
+			},
+			{
+				"name": "V24",
+				"type": "String"
+			},
+			{
+				"name": "V25",
+				"type": "String"
+			},
+			{
+				"name": "V26",
+				"type": "String"
+			},
+			{
+				"name": "V27",
+				"type": "String"
+			},
+			{
+				"name": "V28",
+				"type": "String"
+			},
+			{
+				"name": "Amount",
+				"type": "String"
+			},
+			{
+				"name": "Class",
+				"type": "String"
+			}
+		]
+	}
+}
